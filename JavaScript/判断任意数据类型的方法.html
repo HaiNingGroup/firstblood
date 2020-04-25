@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function bar(target) {
+				/*
+				   toString方法除了Object，
+				   Array、Function、String、Number、Data、Boolean、RegExp、Symbol都对其进行了实现
+				   其中Function、Number、String、Date的toString方法内部
+				   规定了调用者必须分别是function、number、string、date类型
+				   Array的toString方法内部并没有明确规定调用者必须是xx类型,
+					 当是 null 和 undefined 时会报错，不过以数组的形式包裹起来则不会报错，会返回''
+				   Object的toString方法内部也没有规定调用者必须是xx类型
+				     当是 null 和 undefined 时不会报错，且会返回[object Null] 和 [object Undefined]
+				*/  
+				return Object.prototype.toString.call(target).slice(8,-1);
+			}
+			// Array.prototype.toString
+			// Function.prototype.toString
+			// Object.prototype.toString
+			// [Object object]
+			var data = {0: 'yyh'};
+			var fun = function() {}
+			var array = [1,2,3, {}]
+			// console.log(array.toString())
+			// console.log(bar(data)); // [Object object]   ?
+			// console.log(bar(data)); // '1,2,3,[object Object]'
+			// console.log(bar(fun)); // [object Function] 
+			// console.log(array.flat()) ES6 转化一维数组 
+		</script>
+	</body>
+</html>
