@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>函数防抖</title>
+</head>
+<body>
+<button class="btn">button</button>
+<ul class="list"></ul>
+<script type="text/javascript">
+	/*
+	 函数防抖概念： debounce
+	 指触发事件后，当用户再次去触发事件，将覆盖上次触发的事件，也就是说再N秒内事件只会执行一次。
+	 比如：乘坐电梯，每有新的人进入电梯，电梯关门时间（N秒）将重新计算。
+	 使用场景：
+	 搜索框 监听keypress事件，然后异步查询请求
+	 用户快速的输入N个字，则会发送N个异步请求，这无疑是不需要的
+	 使用函数防抖解决
+
+	 */
+    let btnDom = document.querySelector('.btn'),
+        listDom = document.querySelector('.list'),
+        html = '';
+    btnDom.addEventListener('click',debounce(handler, 1000));
+    btnDom.addEventListener('dblclick', function(event) {
+        // handler(event,'hello');
+        // debounce(handler,1000)(event,'hello');
+        let fun = debounce(handler,1000);
+        fun(event,'hello');
+    })
+    // 事件响应函数
+    function handler() {
+        console.log(arguments);
+        // 模仿异步请求
+        fetch('https://jsonplaceholder.typicode.com/todos')
+            .then(res => {
+                // 比起直接使用Promise发送请求
+                // 需要在第一次then方法里面使用json解析下返回的数据
+                console.log(res);
+                return res.json();
+            })
+            .then(data => {
+                console.log('数据请求成功');
+                for(let i = 0; i < data.length; i++) {
+                    html += `<li>Todo.title:${data[i].title},  Complete or not：${data[i].completed}</li>`
+                }
+                listDom.innerHTML = html;
+            })
+    }
+
+    // 防抖函数
+    function debounce(fn, delay) {
+        let timer = null;
+        return function() {
+            // 只要timer有值 就清除定时器来取消回调函数的执行
+            if(timer != null) {
+                clearTimeout(timer);
+            }
+            // console.log(arguments)
+            let context = this;
+            let args = arguments;
+
+            timer = setTimeout(() => {
+                fn.apply(context,args);
+            },delay)
+        }
+    }
+
+
+</script>
+</body>
+</html>

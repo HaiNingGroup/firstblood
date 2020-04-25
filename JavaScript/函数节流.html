@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>函数节流</title>
+	</head>
+	<body>
+		<button class="btn">button</button>
+		<script type="text/javascript">
+			/*
+				函数节流概念:
+					最常见的鼠标onmousemove、onmouseover事件触发频率特别高，
+					假如我们在触发频率特别高的事件响应函数中操作DOM结构，则无疑耗费太多性能，
+					包括在ajax向服务器端发送请求的时候，重复调用造成网络拥堵、占用服务器带宽以及增加服务器压力，
+					显然这个问题是需要解决的（使用函数节流）
+					比如：乘火车过安检10S内只允许检测一个乘客
+					
+					应用场景：
+						下拉加载
+					
+			*/
+			let btnDom = document.querySelector('.btn');
+			btnDom.addEventListener('click',throttlePlus(handler,2000));
+			// document.addEventListener('mousemove',throttle_timeStap(handler, 2000));
+			document.addEventListener('mousemove', function(e) {
+				/*
+					这种写法会点击多少次调用多少次，因为flag每次点击都会重新复制为true
+				*/ 
+				// throttle(handler,4000)(e,'hello');
+			});
+			btnDom.addEventListener('click', function(e) {
+				/*
+					这种写法会点击多少次调用多少次，因为flag每次点击都会重新复制为true
+				*/ 
+				// throttle(handler,4000)();
+			})
+			// 事件响应函数
+			function handler() {
+			    fetch('https://jsonplaceholder.typicode.com/todos/1')
+			    .then(res => {
+					return res.json();
+			    })
+			    .then(data => console.log(data));
+			}
+			// throttle  [ˈθrɑːtl] （撕rua都） 节流阀
+			// 通过定时器的方式实现节流：方式一
+			function throttle(fn, delay) {
+				let flag = true;
+				return function() {
+					if (!flag) return;
+					let context = this;
+					// let	args = arguments;
+					flag = false;
+					setTimeout(() => {
+						fn.apply(context);
+						// fn.apply(context,args);
+						flag = true;
+					}, delay);
+				}
+			}
+			// 通过定时器的方式实现节流：方式二
+			function throttle_timer(fn, delay) {
+				let timer;
+				return function() {
+					let context = this;
+					// let args = arguments;
+					if(!timer) {
+						timer = setTimeout(function() {
+							fn.apply(context);
+							// fn.apply(context, args);
+							timer = null;
+						}, delay)
+					}
+				}
+			}
+			
+			// 通过比对时间戳的方式实现节流 
+			function throttle_timeStap(fn, delay) {
+				// previous [ˈpriːviəs] 当前的 初始化当前时间戳为0
+				let previous = 0;
+				return function() {
+					let now = +new Date(),
+						context = this;
+					if (now - previous >= delay) {
+						fn.apply(context);
+						// 执行后更新revoius值
+						previous = now;
+					} 	
+				}
+			}
+			
+			/*
+				函数节流升级版：
+					第一次点击立即执行，后续每间隔delay秒执行。
+			*/ 
+		    function throttlePlus(fn, delay) {
+				let previous = 0,
+					context,time;
+				return function() {
+					let now = +new Date();
+					context = this;
+					if (now - previous >= delay) {
+						fn.apply(context);
+						previous = now;
+					} else {
+						if (timer) clearTimeout(timer);
+						timer = setTimeout(function() {
+							fn.apply(context);
+							timer = null;
+						}, delay)
+					}	
+				}	
+			}
+			
+		</script>
+	</body>
+</html>
