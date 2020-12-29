@@ -15,3 +15,20 @@
 - defer 属性。立即请求文件，但不阻塞渲染引擎，等到解析完 HTML 之后再执行文件内容。
 
 - HTML5 标准 type 属性，对应值为“module”。让浏览器按照 ECMA Script 6 标准将文件当作模块进行解析，默认阻塞效果同 defer，也可以配合 async 在请求完成后立即执行。
+
+## 函数 Tail Call 尾调用
+- 尾调用由于是在 return 语句中，并且是函数的最后一步操作，所以局部变量等信息不需要再用到，从而可以立即释放节省内存空间。
+
+下面的示例代码通过递归实现了求斐波那契额数列第 n 个数的功能。函数 fibTail() 相对于函数 fib() 就同时使用了尾调用以及减少调用次数两种优化方式。
+
+```
+  function fib(n) {
+    if (n < 3) return 1
+    return fib(n-1) + fib(n-2)
+  }
+  function fibTail(n, a = 0, b = 1) {
+    if (n === 0) return a
+    return fibTail(n - 1, b, a + b)
+  }
+
+```
