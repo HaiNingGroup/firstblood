@@ -43,3 +43,11 @@
 
 当只有服务端把所有的报文都发送完了，才会发送 FIN 报文，告诉客户端可以断开连接了，因此在断开连接时需要四次挥手。
 
+## 请求跨域解决方案
+1. 跨域资源共享(CORS  Cross-Origin Resource Sharing) 是浏览器为AJAX请求设置的一种跨域机制，让其在服务端允许的情况下进行跨域访问，主要
+通过HTTP响应头来告诉浏览器 服务端是否允许当前域的脚本进行跨域访问。
+
+CORS将AJAX请求分为两类，简单请求和非简单请求，其中简单请求符合下面两个特征。
+  - 请求方法为 GET POST HEAD
+  - 请求头只能使用以下字段： Accept Accept-language Content-Type: only text/plain、mulitpart/form-data application/x-www-form-urlencoded Content-Language Save-Data
+
