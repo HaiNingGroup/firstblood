@@ -44,6 +44,14 @@
 当只有服务端把所有的报文都发送完了，才会发送 FIN 报文，告诉客户端可以断开连接了，因此在断开连接时需要四次挥手。
 
 ## 请求跨域解决方案
+
+#### 核心原因，为什么会有跨域
+* 浏览器的同源策略 (Same Origin Policy)
+Origin 是有 URL 中 协议、主域名和默认端口号443共同组成，当一个源访问另外一个源就会产生跨源，最常见的跨源场景是域名不同，即常说的跨域。
+同源策略在保障安全的同时也带来不少问题，比如 iframe 中的 子页面 与父页面无法通信，浏览器与其他服务端无法交互数据
+
+#### 请求跨域解决方案
+
 1. 跨域资源共享(CORS  Cross-Origin Resource Sharing) 是浏览器为AJAX请求设置的一种跨域机制，让其在服务端允许的情况下进行跨域访问，主要
 通过HTTP响应头来告诉浏览器 服务端是否允许当前域的脚本进行跨域访问。
 
@@ -51,3 +59,44 @@ CORS将AJAX请求分为两类，简单请求和非简单请求，其中简单请
   - 请求方法为 GET POST HEAD
   - 请求头只能使用以下字段： Accept Accept-language Content-Type: only text/plain、mulitpart/form-data application/x-www-form-urlencoded Content-Language Save-Data
 
+
+ 简单请求解决办法
+  - 浏览器发出简单请求的时候，会在请求头部增加一个 Origin 字段，对应的值为当前请求的源信息
+  - 服务端收到请求后，会根据请求字段 Origin 做出相应的判断后返回相应的内容
+  - 浏览器收到相应报文 会根据响应头部字段 Access-Control-Allow-Origin 进行判断，
+
+非简单请求解决办法
+  - 浏览器会先发出一个 预检请求 (Prefight), 这个预检请求为 OPTIONS 方法，并会添加一个请求头部字段 Access-Control-Request-Method 值为跨域请求所使用的请求方法
+  - 服务端收到预检测请求后，会返回 允许的 Origin还会添加允许的 Methods 并且会返回 204状态🐎
+
+
+2. JSONP
+
+JSONP(JSON with Padding) 的大概意思就是用 JSON数据来填充，以来 Script 标签跨域引用js文件不会收到浏览器同源策略的限制
+
+存在问题
+  1. 只能发送 GET 请求，限制了参数的大小和类型
+  2. 请求过程无法终止，导致若网络下处理超时时比较麻烦
+  3. 无法捕获服务端返回的异常信息
+
+3. Websocket HTML5 提出的应用层全双工协议，适用于浏览器和服务器进行实时通信场景
+
+4. 代理转发
+
+  ```
+    module.exports = {
+    //...
+    devServer: {
+      proxy: {
+        '/api': 'http://localhost:3000'
+      }
+    }
+  };
+  ```
+
+  5. postMessage 
+
+  `window.open()`
+
+
+  6. 改域 iframe 子页面修改成和 父页面一样的域名 document.domain
