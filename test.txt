@@ -1,0 +1,9 @@
+wrong format
+No data available
+Please enter the correct integer.
+Please enter the correct positive integer.
+Please input correct ip
+Please enter corret url.
+
+this.translate.instant('TOASTR.Please input')+` ${invalidFormItem[0].text} !`
+this.translate.instant('TOASTR.'+res.msg)
