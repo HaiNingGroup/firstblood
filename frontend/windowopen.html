@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui" />
+    <!-- Call App Mode on ios devices -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Remove Tap Highlight on Windows Phone IE -->
+    <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" sizes="32x32" href="./NetEyez_2.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./NetEyez_2.png" />
+  <link rel="mask-icon" href="./NetEyez_2.png" />
+  <title>Document</title>
+</head>
+<body>
+
+  <button onclick="handleClick()">open ELK</button>
+  <script>
+    function handleClick(e) {
+      setTimeout(() => {
+        location.reload()
+      }, 2000)
+      window.open("http://192.168.1.70:5601/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now%2Fy,mode:quick,to:now))&_a=(columns:!(_source),sort:!(_score,desc))", '_blank')
+    }
+  </script>
+</body>
+</html>
