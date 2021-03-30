@@ -13,6 +13,7 @@
   <script>
     const _tooltip = function _tooltip(selection) {
       selection.on('mouseover.tooltip', function (d) {
+        console.log(d);
         const tooltip = svg.select('.tooltip');
         const tooltip_title = tooltip
           .select("tspan#tooltip_title")
