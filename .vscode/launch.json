@@ -38,7 +38,16 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/ES6/class/class.js"
+      "program": "${workspaceFolder}/ES6/class/construc.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "constructor",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/ES6/class/constructor.js"
     }
   ]
 }
