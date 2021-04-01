@@ -21,6 +21,24 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/ES6/EventEmitter/dispatch-subscribe.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "yang",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/ES6/EventEmitter/event-self.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "class",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/ES6/class/class.js"
     }
   ]
 }
