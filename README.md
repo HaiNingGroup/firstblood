@@ -100,3 +100,9 @@ JSONP(JSON with Padding) 的大概意思就是用 JSON数据来填充，以来 S
 
 
   6. 改域 iframe 子页面修改成和 父页面一样的域名 document.domain
+
+
+  7. https 自认证 ： `https://devcenter.heroku.com/articles/ssl-certificate-self`
+
+  
+

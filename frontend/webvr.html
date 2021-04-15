@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+</head>
+<body>
+
+  <h1></h1>
+  <script>
+
+    async function myTestXR() {
+      // inline immersive-vr immersive-ar 
+      console.log(window.navigator.xr)
+      innerHtml(window.navigator.xr)
+      const supported = await navigator.xr.isSessionSupported('immersive-ar');
+      if (supported) {
+        // 'immersive-vr' sessions may be supported.
+        // Page should advertise support to the user.
+        console.log('supported');
+        innerHtml('supported')
+      } else {
+        innerHtml('not supported')
+        console.log('not supported');
+        // 'immersive-vr' sessions are not supported.
+      }
+    }
+
+    function innerHtml(str) {
+      let dom = document.getElementsByTagName('h1')[0];
+      dom.innerHTML = str
+    }
+
+    myTestXR();
+    
+  </script>
+  
+</body>
+</html>
